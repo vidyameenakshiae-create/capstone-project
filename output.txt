@@ -1,3 +1,13 @@
-The `cloudbuild.yaml` has been updated to ensure the Docker image is tagged with both the `SHORT_SHA` and `latest` tags, and the deployment step now explicitly uses the `latest` tag. This should resolve the "Image not found" error you were encountering.
+The Cloud Run service is still encountering the same error:
 
-Please try re-running your deployment.
+`google.api_core.exceptions.NotFound: 404 The database (default) does not exist for project trainocat-1773203050331 Please visit https://console.cloud.google.com/datastore/setup?project=trainocat-1773203050331 to add a Cloud Datastore or Cloud Firestore database.`
+
+Even though you confirmed creating the Firestore database, the application is still unable to find it in the project `trainocat-1773203050331`.
+
+Please verify the following:
+1.  **Project ID:** Ensure the Firestore database was created in the exact Google Cloud Project `trainocat-1773203050331`.
+2.  **Location:** Confirm that the Firestore database's location is compatible with or accessible from the `us-central1` region where your Cloud Run service is deployed.
+3.  **Setup Completion:** Double-check that the Firestore setup process was fully completed and the database is active.
+4.  **Permissions:** While less common for the default service account, ensure the Cloud Run service account (`PROJECT_NUMBER-compute@developer.gserviceaccount.com`) has the necessary "Cloud Datastore User" or "Cloud Datastore Owner" roles to read and write to Firestore. You can check this in the IAM & Admin section of your Google Cloud Console.
+
+After verifying these points, please attempt to access the `/messages` endpoint again.

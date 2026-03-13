@@ -14,7 +14,7 @@ paths:
       summary: Hello World Endpoint
       operationId: helloWorld
       x-google-backend:
-        address: https://flask-app-luzi5f4sna-uc.a.run.app
+        address: https://flask-app-tezynawuda-uc.a.run.app
         protocol: h2
       responses:
         '200':
@@ -24,7 +24,7 @@ paths:
       summary: Get Messages
       operationId: getMessages
       x-google-backend:
-        address: https://flask-app-luzi5f4sna-uc.a.run.app/messages
+        address: https://flask-app-tezynawuda-uc.a.run.app/messages
         protocol: h2
       responses:
         '200':
@@ -33,7 +33,7 @@ paths:
       summary: Add a Message
       operationId: addMessage
       x-google-backend:
-        address: https://flask-app-luzi5f4sna-uc.a.run.app/messages
+        address: https://flask-app-tezynawuda-uc.a.run.app/messages
         protocol: h2
       consumes:
         - application/json
