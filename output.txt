@@ -1,0 +1,3 @@
+The `cloudbuild.yaml` has been updated to ensure the Docker image is tagged with both the `SHORT_SHA` and `latest` tags, and the deployment step now explicitly uses the `latest` tag. This should resolve the "Image not found" error you were encountering.
+
+Please try re-running your deployment.

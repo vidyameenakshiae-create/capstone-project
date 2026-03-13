@@ -5,6 +5,8 @@ steps:
     - 'build'
     - '-t'
     - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+    - '-t'
+    - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${_TAG}'
     - './app' # Path to your Dockerfile and application code
   id: Build
 
@@ -13,7 +15,12 @@ steps:
   args:
     - 'push'
     - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
-  id: Push
+  id: Push-SHORT_SHA
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'push'
+    - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${_TAG}'
+  id: Push-Latest
 
 # Step 3: Deploy the image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -23,7 +30,7 @@ steps:
     - 'deploy'
     - '${_SERVICE_NAME}'
     - '--image'
-    - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+    - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${_TAG}'
     - '--region=${_LOCATION}'
     - '--platform=managed'
     - '--allow-unauthenticated' # Adjust based on your security needs
@@ -33,6 +40,7 @@ steps:
 
 images:
   - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${SHORT_SHA}'
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/${_SERVICE_NAME}:${_TAG}'
 
 options:
   logging: CLOUD_LOGGING_ONLY
@@ -41,3 +49,4 @@ substitutions:
   _SERVICE_NAME: flask-app
   _AR_REPO_NAME: flask-app-repo
   _LOCATION: us-central1 # e.g., us-central1
+  _TAG: latest
